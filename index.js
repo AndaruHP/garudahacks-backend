@@ -10,6 +10,8 @@ dotenv.config();
 
 // Routes
 const authRoute = require("./routes/auth_route.js");
+const materialsRoute = require("./routes/materials_route.js");
+const subjectRoute = require("./routes/subject_route.js");
 
 // middleware
 app.use(express.json());
@@ -56,6 +58,8 @@ testConnection();
 
 // Routes
 app.use(authRoute); // Add a base path for auth routes
+app.use(materialsRoute);
+app.use(subjectRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
