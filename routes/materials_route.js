@@ -8,5 +8,9 @@ router.post(
 );
 router.get("/materials/get-materials", materialsController.getMaterials);
 router.get("/materials/get-material/:id", materialsController.getMaterial);
+router.get(
+  "/materials/get-materials-by-subject/:subject_id",
+  materialsController.getMaterialsBySubject
+);
 
 module.exports = router;

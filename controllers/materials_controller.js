@@ -107,3 +107,19 @@ exports.getMaterial = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getMaterialsBySubject = async (req, res) => {
+  try {
+    const { subject_id } = req.params;
+    const { data, error } = await supabase
+      .from("materials")
+      .select("*")
+      .eq("subject_id", subject_id);
+    if (error) {
+      return res.status(400).json({ error: error.message });
+    }
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
