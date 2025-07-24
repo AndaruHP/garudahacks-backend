@@ -92,6 +92,20 @@ controller.login = async (req, res) => {
   }
 };
 
+controller.logout = async (req, res) => {
+  try {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Logout error:", error);
+      return res.status(500).json({ error: "Logout failed" });
+    }
+    res.json({ message: "Logged out successfully" });
+  } catch (error) {
+    console.error("Unexpected logout error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 controller.GetAdminAllUsers = async (req, res) => {
   try {
     const { data, error } = await supabase.from("profiles").select("*");

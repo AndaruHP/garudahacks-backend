@@ -15,6 +15,9 @@ router.post("/signup", controller.auth.signup);
 // Login
 router.post("/login", controller.auth.login);
 
+// Logout
+router.post("/logout", authenticate, controller.auth.logout);
+
 // Admin only routes
 router.get(
   "/admin/users",
