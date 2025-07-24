@@ -37,11 +37,18 @@ router.get(
 );
 
 // Admin route to change user roles
-router.patch(
-  "/admin/users/:userId/role",
+router.put(
+  "/admin/users/:userId",
   authenticate,
   requireAdmin,
   controller.auth.AdminChangeUserRole
+);
+
+router.delete(
+  "/admin/users/:userId",
+  authenticate,
+  requireAdmin,
+  controller.auth.AdminDeleteUser
 );
 
 router.get("/admin-only", authenticate, requireAdmin, (req, res) => {
