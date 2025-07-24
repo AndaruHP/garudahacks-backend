@@ -1,6 +1,27 @@
 const supabase = require("../config/supabase");
 
-exports.createMaterialsWithQuiz = async (req, res) => {
+const controller = {};
+
+controller.createMaterialsWithAI = async (req, res) => {
+  try {
+    const { title, bahasa, subject_id } = req.body;
+    console.log("Received data:", { title, subject_id, bahasa });
+
+    res.status(200).json({
+      message: "Materials created successfully",
+      data: {
+        title,
+        subject_id,
+        bahasa,
+      },
+    });
+  } catch (err) {
+    console.error("Error in createMaterialsWithAI:", err);
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+controller.createMaterialsWithQuiz = async (req, res) => {
   try {
     const { nama_materi, hasil_materi, subject_id, quiz, answer } = req.body;
 
@@ -79,7 +100,7 @@ exports.createMaterialsWithQuiz = async (req, res) => {
   }
 };
 
-exports.getMaterials = async (req, res) => {
+controller.getMaterials = async (req, res) => {
   try {
     const { data, error } = await supabase.from("materials").select("*");
     if (error) {
@@ -91,7 +112,7 @@ exports.getMaterials = async (req, res) => {
   }
 };
 
-exports.getMaterial = async (req, res) => {
+controller.getMaterial = async (req, res) => {
   try {
     const { id } = req.params;
     const { data, error } = await supabase
@@ -108,7 +129,7 @@ exports.getMaterial = async (req, res) => {
   }
 };
 
-exports.getMaterialsBySubject = async (req, res) => {
+controller.getMaterialsBySubject = async (req, res) => {
   try {
     const { subject_id } = req.params;
     const { data, error } = await supabase
@@ -123,3 +144,5 @@ exports.getMaterialsBySubject = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+module.exports = controller;

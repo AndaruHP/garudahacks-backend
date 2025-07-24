@@ -1,16 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const materialsController = require("../controllers/materials_controller");
+const controller = require("../controllers/index");
+
+router.post("/materials/post-ai", controller.materials.createMaterialsWithAI);
 
 router.post(
   "/materials/post-material",
-  materialsController.createMaterialsWithQuiz
+  controller.materials.createMaterialsWithQuiz
 );
-router.get("/materials/get-materials", materialsController.getMaterials);
-router.get("/materials/get-material/:id", materialsController.getMaterial);
+router.get("/materials/get-materials", controller.materials.getMaterials);
+router.get("/materials/get-material/:id", controller.materials.getMaterial);
 router.get(
   "/materials/get-materials-by-subject/:subject_id",
-  materialsController.getMaterialsBySubject
+  controller.materials.getMaterialsBySubject
 );
 
 module.exports = router;
