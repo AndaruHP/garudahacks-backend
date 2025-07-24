@@ -78,3 +78,32 @@ exports.createMaterialsWithQuiz = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 };
+
+exports.getMaterials = async (req, res) => {
+  try {
+    const { data, error } = await supabase.from("materials").select("*");
+    if (error) {
+      return res.status(400).json({ error: error.message });
+    }
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getMaterial = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from("materials")
+      .select("*")
+      .eq("materials_id", id)
+      .single();
+    if (error) {
+      return res.status(400).json({ error: error.message });
+    }
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

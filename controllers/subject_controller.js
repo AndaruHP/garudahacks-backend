@@ -40,4 +40,37 @@ controller.CreateSubject = async (req, res) => {
   }
 };
 
+controller.GetSubject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from("subject")
+      .select("*")
+      .eq("subject_id", id)
+      .single();
+    if (error) {
+      return res.status(400).json({ error: error.message });
+    }
+    res.json(data);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
+controller.GetSubjectsByClass = async (req, res) => {
+  try {
+    const { classNumber } = req.params;
+    const { data, error } = await supabase
+      .from("subject")
+      .select("*")
+      .eq("class", classNumber);
+    if (error) {
+      return res.status(400).json({ error: error.message });
+    }
+    res.json(data);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
 module.exports = controller;

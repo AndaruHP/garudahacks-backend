@@ -8,5 +8,10 @@ const controller = require("../controllers/index");
 
 router.get("/subject/get-subjects", controller.subject.GetSubjects);
 router.post("/subject/post-subject", controller.subject.CreateSubject);
+router.get("/subject/get-subject/:id", controller.subject.GetSubject);
+router.get(
+  "/subject/get-subjects-by-class/:classNumber",
+  controller.subject.GetSubjectsByClass
+);
 
 module.exports = router;

@@ -6,5 +6,7 @@ router.post(
   "/materials/post-material",
   materialsController.createMaterialsWithQuiz
 );
+router.get("/materials/get-materials", materialsController.getMaterials);
+router.get("/materials/get-material/:id", materialsController.getMaterial);
 
 module.exports = router;
