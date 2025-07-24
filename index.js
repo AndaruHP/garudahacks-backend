@@ -60,8 +60,3 @@ app.use(authRoute); // Add a base path for auth routes
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
-
-// Remove this duplicate app.listen()
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
