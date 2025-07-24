@@ -5,7 +5,7 @@ const controller = {};
 
 controller.signup = async (req, res) => {
   try {
-    const { email, password, role = "student", name } = req.body;
+    const { email, password, role = "student", name, grade } = req.body;
 
     // Validate role
     const validRoles = ["student", "teacher", "admin"];
@@ -33,6 +33,7 @@ controller.signup = async (req, res) => {
           email: email,
           role: role,
           name: name || null,
+          grade: grade || 1,
         })
         .select()
         .single();
@@ -76,11 +77,12 @@ controller.login = async (req, res) => {
     const { data: profile, error: profileError } = await supabase
       .from("profiles")
       .select("*")
-      .eq("id", authData.user.id)
+      .eq("user_id", authData.user.id)
       .single();
 
     res.json({
       user: authData.user,
+      user_id: authData.user.id,
       profile: profile,
       session: authData.session.access_token,
     });
