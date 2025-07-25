@@ -13,6 +13,7 @@ const authRoute = require("./routes/auth_route.js");
 const materialsRoute = require("./routes/materials_route.js");
 const subjectRoute = require("./routes/subject_route.js");
 const gradeRoute = require("./routes/grade_route");
+const videoRoute = require("./routes/video_route.js");
 
 // middleware
 app.use(express.json());
@@ -62,6 +63,7 @@ app.use(authRoute); // Add a base path for auth routes
 app.use(materialsRoute);
 app.use(subjectRoute);
 app.use(gradeRoute);
+app.use(videoRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
