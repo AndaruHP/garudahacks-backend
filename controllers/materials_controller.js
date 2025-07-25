@@ -19,7 +19,7 @@ controller.createMaterialsWithAI = async (req, res) => {
 
     const grade_level = `kelas ${subject.class} SD`;
 
-    // Call external API
+    // call external api
     const apiUrl = process.env.GENERATE_MATERIAL;
     let material_result = null;
     try {
@@ -37,13 +37,12 @@ controller.createMaterialsWithAI = async (req, res) => {
       });
     }
 
-    // Insert to materials table
     const { data: materialsData, error: materialsError } = await supabase
       .from("materials")
       .insert([
         {
           nama_materi: title,
-          hasil_materi: material_result, // langsung simpan JSON
+          hasil_materi: material_result,
           subject_id,
         },
       ])
@@ -54,12 +53,11 @@ controller.createMaterialsWithAI = async (req, res) => {
       return res.status(400).json({ error: materialsError.message });
     }
 
-    // Setelah berhasil insert ke materials:
+    // insert materials from the LLM response
     const materials_id = materialsData.materials_id;
     const { rencana_belajar, materi_belajar, latihan_soal, kunci_jawaban } =
       material_result;
 
-    // (Opsional) Update materials dengan rencana_belajar dan materi_belajar jika ada kolomnya
     await supabase
       .from("materials")
       .update({
@@ -68,33 +66,31 @@ controller.createMaterialsWithAI = async (req, res) => {
       })
       .eq("materials_id", materials_id);
 
-    // Insert ke quiz dan answer
+    // insert quiz and its answer
     for (let i = 0; i < latihan_soal.length; i++) {
       const soal = latihan_soal[i];
-      // Insert ke quiz
       const { data: quizData, error: quizError } = await supabase
         .from("quiz")
         .insert([
           {
             materials_id,
-            number: soal.number, // nomor urut soal
+            number: soal.number, // number as identifier
             question: soal.question,
             type: soal.type,
-            options: soal.options ? soal.options : null, // simpan opsi jika ada
+            options: soal.options ? soal.options : null, // there are 2 possible options
           },
         ])
         .select("quiz_id")
         .single();
 
-      if (quizError) continue; // atau handle error sesuai kebutuhan
+      if (quizError) continue;
 
-      // Insert ke answer (cocokkan dengan kunci_jawaban berdasarkan number)
       const kunci = kunci_jawaban.find((j) => j.number === soal.number);
       if (kunci) {
         await supabase.from("answer").insert([
           {
             quiz_id: quizData.quiz_id,
-            number: kunci.number, // nomor urut jawaban
+            number: kunci.number,
             correct_answer: kunci.answer,
             explanation: kunci.explanation,
           },
