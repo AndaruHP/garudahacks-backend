@@ -45,7 +45,7 @@ exports.gradeQuiz = async (req, res) => {
           materials_id,
           grade,
           status,
-          answers: JSON.stringify(answers), 
+          answers: JSON.stringify(answers),
         },
       ])
       .select("*")
@@ -99,7 +99,9 @@ exports.getGradeByUserAndMaterial = async (req, res) => {
       .eq("user_id", user_id)
       .eq("materials_id", materials_id)
       .single();
-    if (error) {
+
+    console.log("Data:", data);
+    if (error && data !== null) {
       return res.status(400).json({ error: error.message });
     }
     res.json(data);
