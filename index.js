@@ -14,6 +14,7 @@ const materialsRoute = require("./routes/materials_route.js");
 const subjectRoute = require("./routes/subject_route.js");
 const gradeRoute = require("./routes/grade_route");
 const mathVideoRoute = require("./routes/math_video_route");
+const videoRoute = require("./routes/video_route.js");
 
 // middleware
 app.use(express.json());
@@ -64,6 +65,7 @@ app.use(materialsRoute);
 app.use(subjectRoute);
 app.use(gradeRoute);
 app.use(mathVideoRoute);
+app.use(videoRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
