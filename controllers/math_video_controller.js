@@ -63,7 +63,8 @@ exports.getUserVideos = async (req, res) => {
     const { data, error } = await supabase
       .from("video")
       .select("prompt, video_url, folder_name")
-      .eq("user_id", user_id);
+      .eq("user_id", user_id)
+      .order("created_at", { ascending: false });
     if (error) {
       return res.status(400).json({ error: error.message });
     }
