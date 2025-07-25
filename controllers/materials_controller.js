@@ -31,6 +31,7 @@ controller.createMaterialsWithAI = async (req, res) => {
       });
       material_result = apiResponse.data;
     } catch (apiErr) {
+      console.error("Error calling GENERATE_MATERIAL API:", apiErr);
       return res.status(502).json({
         error: "Failed to fetch from GENERATE_MATERIAL API",
         details: apiErr.message,
